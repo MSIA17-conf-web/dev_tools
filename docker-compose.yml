@@ -1,0 +1,47 @@
+version: "3.4"
+
+services: 
+  portainer:
+    image: portainer/portainer
+    container_name: portainer
+    hostname: portainer
+    restart: always
+    ports:
+      - "9000"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - portainer_data:/data
+      - cert-handler_certbot-letsencrypt:/etc/letsencrypt
+    command:
+      --ssl
+      --sslcert /etc/letsencrypt/live/www.msia17conferences.com/cert.pem
+      --sslkey /etc/letsencrypt/live/www.msia17conferences.com/privkey.pem
+
+  jenkins:
+    image: jenkins/jenkins:lts
+    container_name: jenkins
+    hostname: jenkins
+    restart: always
+    ports:
+      - "8080"
+      - "8083"
+      - "50000"
+    volumes:
+      - jenkins_data:/var/jenkins_home
+      - cert-handler_certbot-letsencrypt:/etc/letsencrypt
+    environment: 
+      - JENKINS_OPTS=--httpPort=-1 --httpsPort=8083 --httpsCertificate=/etc/letsencrypt/live/www.msia17conferences.com/cert.pem --httpsPrivateKey=/etc/letsencrypt/live/www.msia17conferences.com/privkey.pem
+
+
+volumes:
+  portainer_data:
+    name: portainer_data
+  jenkins_data:
+    name: jenkins_data
+  cert-handler_certbot-letsencrypt:
+    external: true
+
+networks: 
+  default:
+    external:
+      name: the_network
