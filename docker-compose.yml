@@ -6,8 +6,6 @@ services:
     container_name: portainer
     hostname: portainer
     restart: always
-    ports:
-      - "9000"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - portainer_data:/data
@@ -22,24 +20,19 @@ services:
     container_name: jenkins
     hostname: jenkins
     restart: always
-    ports:
-      - "8080"
-      - "8083"
-      - "50000"
     volumes:
       - jenkins_data:/var/jenkins_home
-      - cert-handler_certbot-letsencrypt:/etc/letsencrypt
+      - /var/run/docker.sock:/var/run/docker.sock
     environment: 
-      - JENKINS_OPTS=--httpPort=-1 --httpsPort=8083 --httpsCertificate=/etc/letsencrypt/live/www.msia17conferences.com/cert.pem --httpsPrivateKey=/etc/letsencrypt/live/www.msia17conferences.com/privkey.pem
-
+      - JENKINS_OPTS="--prefix=/jenkins"
 
 volumes:
+  cert-handler_certbot-letsencrypt:
+    external: true
   portainer_data:
     name: portainer_data
   jenkins_data:
     name: jenkins_data
-  cert-handler_certbot-letsencrypt:
-    external: true
 
 networks: 
   default:
