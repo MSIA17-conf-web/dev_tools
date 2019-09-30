@@ -26,6 +26,43 @@ services:
     environment: 
       - JENKINS_OPTS="--prefix=/jenkins"
 
+  sonarqube:
+    image: sonarqube:lts
+    container_name: sonarqube
+    hostname: sonarqube
+    ports:
+      - 9000:9000
+    environment:
+      - sonar.jdbc.username=sonar
+      - sonar.jdbc.password=sonar
+      - sonar.jdbc.url=jdbc:postgresql://postgres:5432/sonar
+      - sonar.web.context=/sonar
+    volumes:
+      - sonarqube_data:/opt/sonarqube/
+
+  postgres:
+    build:
+      context: ./postgres
+      dockerfile: Dockerfile
+    container_name: postgres
+    hostname: postgres
+    ports:
+      - 5432:5432
+    env_file: ./postgres/pg-env.list
+    volumes:
+      - postgres_data:/var/lib/postgresql
+
+  pg_admin:
+    image: dpage/pgadmin4:latest
+    container_name: pg_admin
+    hostname: pg_admin
+    ports: 
+      - 9001:80
+    env_file: ./pgadmin/pgadmin-env.list 
+    volumes: 
+      - pgadmin_data:/var/lib/pgadmin
+
+
 volumes:
   cert-handler_certbot-letsencrypt:
     external: true
@@ -33,6 +70,12 @@ volumes:
     name: portainer_data
   jenkins_data:
     name: jenkins_data
+  sonarqube_data:
+    name: sonarqube_data
+  postgres_data:
+    name: postgres_data
+  pgadmin_data:
+    name: pgadmin_data
 
 networks: 
   default:
