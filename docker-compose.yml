@@ -84,6 +84,16 @@ services:
       - /var/minio:/data
     command: server /data
 
+  mongodb:
+    image: mongo:4.2
+    container_name: mongodb
+    hostname : mongodb
+    restart: always
+    ports:
+      - 27017
+    volumes:
+      - mongodb_data:/data/db
+
 volumes:
   cert-handler_certbot-letsencrypt:
     external: true
@@ -97,6 +107,8 @@ volumes:
     name: postgres_data
   pgadmin_data:
     name: pgadmin_data
+  mongodb_data:
+    name: mongodb_data
 
 networks: 
   default:
