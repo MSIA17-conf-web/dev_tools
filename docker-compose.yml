@@ -93,6 +93,18 @@ services:
       - 27017
     volumes:
       - mongodb_data:/data/db
+      
+  mqtt_server:
+    container_name: mqtt_server
+    hostname: mqtt_server
+    image: eclipse-mosquitto:1.6.7
+    ports:
+      - 1883
+      - 9001
+    volumes: 
+      - mqtt_data:/mosquitto/data
+      - mqtt_log:/mosquitto/log
+      - ./mqtt/config:/mosquitto/config
 
 volumes:
   cert-handler_certbot-letsencrypt:
@@ -109,6 +121,10 @@ volumes:
     name: pgadmin_data
   mongodb_data:
     name: mongodb_data
+  mqtt_data:
+    name: mqtt_data
+  mqtt_log:
+    name: mqtt_log
 
 networks: 
   default:
