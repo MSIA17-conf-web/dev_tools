@@ -98,6 +98,7 @@ services:
     container_name: mqtt_server
     hostname: mqtt_server
     image: eclipse-mosquitto:1.6.7
+    restart: always
     ports:
       - 1883
       - 9001
@@ -105,6 +106,7 @@ services:
       - mqtt_data:/mosquitto/data
       - mqtt_log:/mosquitto/log
       - ./mqtt/config:/mosquitto/config
+      - cert-handler_certbot-letsencrypt:/etc/letsencrypt
 
 volumes:
   cert-handler_certbot-letsencrypt:
