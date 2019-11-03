@@ -15,17 +15,17 @@ services:
       --sslcert /etc/letsencrypt/live/www.msia17conferences.com/cert.pem
       --sslkey /etc/letsencrypt/live/www.msia17conferences.com/privkey.pem
 
-  jenkins:
-    # image: jenkins/jenkins:lts
-    build: ./jenkins
-    container_name: jenkins
-    hostname: jenkins
-    restart: always
-    volumes:
-      - jenkins_data:/var/jenkins_home
-      - /var/run/docker.sock:/var/run/docker.sock
-    environment: 
-      - JENKINS_OPTS="--prefix=/jenkins"
+  # jenkins:
+  #   # image: jenkins/jenkins:lts
+  #   build: ./jenkins
+  #   container_name: jenkins
+  #   hostname: jenkins
+  #   restart: always
+  #   volumes:
+  #     - jenkins_data:/var/jenkins_home
+  #     - /var/run/docker.sock:/var/run/docker.sock
+  #   environment: 
+  #     - JENKINS_OPTS="--prefix=/jenkins"
 
   # jks_docker_slave:
   #   image: jenkins/ssh-slave 
@@ -33,20 +33,20 @@ services:
   #   hostname: jks_docker_slave
   #   command: "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC49TDHrMu7I5aOz4eJ2uHoIr3zyqC49rQYn9ALAKBTSPlWXCkhAE2c4qomUdYPObx7KhTc0Rj9sVU4fm0yBT6kenl+24Edoe1GvnKoijdjy+7CiLb9n4BkS1Q8cNrIKkG0djLdYmEsPyois6bad5Tv4EkOVYluTJQhx1rmlOPfgj9xcq0EHgigoEHRRNt69t0YV8NtgKqSz0XDt02YdBoBaCV3wVcc7vJXzdWSORp4EBArDkdh1rCDVSuz6gHThBAgc+mkJZL//lAbufUwldwhYeEDoQXl5UFv0qp28WJVlfafS5WiRiuctetDS2U4Flp2FqqkPjJV2cpuJqgK5n4t neito@instance-template-1"
 
-  sonarqube:
-    image: sonarqube:lts
-    container_name: sonarqube
-    hostname: sonarqube
-    restart: always
-    ports:
-      - 9000:9000
-    environment:
-      - sonar.jdbc.username=sonar
-      - sonar.jdbc.password=sonar
-      - sonar.jdbc.url=jdbc:postgresql://postgres:5432/sonar
-      - sonar.web.context=/sonar
-    volumes:
-      - sonarqube_data:/opt/sonarqube/
+  # sonarqube:
+  #   image: sonarqube:lts
+  #   container_name: sonarqube
+  #   hostname: sonarqube
+  #   restart: always
+  #   ports:
+  #     - 9000:9000
+  #   environment:
+  #     - sonar.jdbc.username=sonar
+  #     - sonar.jdbc.password=sonar
+  #     - sonar.jdbc.url=jdbc:postgresql://postgres:5432/sonar
+  #     - sonar.web.context=/sonar
+  #   volumes:
+  #     - sonarqube_data:/opt/sonarqube/
 
   postgres:
     build:
@@ -113,10 +113,10 @@ volumes:
     external: true
   portainer_data:
     name: portainer_data
-  jenkins_data:
-    name: jenkins_data
-  sonarqube_data:
-    name: sonarqube_data
+  # jenkins_data:
+  #   name: jenkins_data
+  # sonarqube_data:
+  #   name: sonarqube_data
   postgres_data:
     name: postgres_data
   pgadmin_data:
